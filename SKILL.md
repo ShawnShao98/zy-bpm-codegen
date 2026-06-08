@@ -35,8 +35,12 @@ BPM 系统代码生成器。根据用户描述的业务需求，生成与原有 
 - 数据源命名：`DSName.TableName`（如 `BPMDB.Employee_T`）
 
 ### 编码规范
-- .aspx 文件：GBK (936)
-- .js / .ashx 文件：GBK (936)（QMW 版本 .js 为 UTF-8 with BOM）
+- .aspx 文件：UTF-8 with BOM
+- .js / .ashx 文件：UTF-8 with BOM（QMW 版本同为 UTF-8 with BOM）
+- **BOM 添加**（Write 工具默认无 BOM，生成文件后必须执行）：
+  ```bash
+  powershell -Command "$f='<文件路径>'; $c=[System.IO.File]::ReadAllBytes($f); $b=[byte[]]@(0xEF,0xBB,0xBF)+$c; [System.IO.File]::WriteAllBytes($f,$b)"
+  ```
 - C# 代码使用 XML 中文注释
 - SQL 参数化查询
 

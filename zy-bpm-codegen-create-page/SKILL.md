@@ -193,7 +193,30 @@ yz-glyph yz-glyph-eb16 (退出)
 7. 确认双击行事件
 8. 全部确认后生成 JS + Handler
 
+### 进度汇报（生成期间）
+
+生成过程中（步骤 8），每完成一个阶段向用户汇报进度：
+
+- `✅ 已确认页面名称、PageClassName、布局类型`
+- `✅ 已确认数据表配置（主表 + X 个明细表）`
+- `✅ 已确认列配置（共 Y 列）`
+- `✅ 已确认搜索配置（快速: Z 个, 高级: W 个）`
+- `✅ 已确认按钮配置（N 个按钮）`
+- `✅ 已确认操作列配置`
+- `✅ 已确认双击行事件`
+- `🔄 正在生成 ExtJS 页面 (.js)`
+- `🔄 正在生成 C# Handler (.ashx)`
+- `✅ 文件编码 BOM 已添加`
+- `📄 生成完毕，待确认`
+
 ## 输出
 
 - ExtJS `.js` 文件（路径：配置的 `jsOutputPath` 模板解析）
 - C# `.ashx` Handler 文件（路径：配置的 `handlerOutputPath` 模板解析）
+- 编码：UTF-8 with BOM
+- **BOM 添加步骤**：
+
+  ```bash
+  cd "{目标目录路径}"
+  powershell -ExecutionPolicy Bypass -Command "Get-ChildItem -Filter '{FileName}.*' | ForEach-Object { \$f=\$_.FullName; \$c=[System.IO.File]::ReadAllBytes(\$f); if(\$c[0]-ne 0xEF -or \$c[1]-ne 0xBB -or \$c[2]-ne 0xBF){\$b=[byte[]]@(0xEF,0xBB,0xBF)+\$c;[System.IO.File]::WriteAllBytes(\$f,\$b)}}"
+  ```

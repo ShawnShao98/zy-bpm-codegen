@@ -102,7 +102,7 @@ BEGIN
     EXEC sp_addextendedproperty 'MS_Description', '创建人部门', 'SCHEMA', 'dbo', 'TABLE', 'Employee_M', 'COLUMN', 'CreationDept';
     EXEC sp_addextendedproperty 'MS_Description', '创建人部门编码', 'SCHEMA', 'dbo', 'TABLE', 'Employee_M', 'COLUMN', 'CreationDeptCode';
     EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', 'dbo', 'TABLE', 'Employee_M', 'COLUMN', 'CreationDate';
-    EXEC sp_addextendedproperty 'MS_Description', '序号', 'SCHEMA', 'dbo', 'TABLE', 'Employee_M', 'COLUMN', 'SN';
+    EXEC sp_addextendedproperty 'MS_Description', '单号', 'SCHEMA', 'dbo', 'TABLE', 'Employee_M', 'COLUMN', 'SN';
 END
 ```
 
