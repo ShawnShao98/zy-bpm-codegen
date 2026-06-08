@@ -15,6 +15,15 @@ description: BPM 表单生成 — 根据表结构生成 ASP.NET WebForm (.aspx) 
 
 ## 生成规则
 
+### 严格遵循配置
+
+**⚠️ 核心原则**：生成时必须严格按照用户提供的配置项执行，**不添加**任何配置之外的内容。
+
+- **不自动添加**用户未要求的控件、列、字段
+- **不自动修改**用户已配置的属性
+- **不自动补充**用户未提及的布局元素
+- 仅执行配置中明确指定的操作
+
 ### 模板替换
 
 1. 从配置读取 `form.tplFilePath` 和 `form.tplInsertSign`
@@ -193,16 +202,22 @@ description: BPM 表单生成 — 根据表结构生成 ASP.NET WebForm (.aspx) 
 
 ### 控件自动映射规则
 
-当未手动指定 `XFormControl` 时：
+**仅当用户配置中未指定 `XFormControl` 时**应用以下规则：
 1. 数据类型含 `date` / `datetime`，或列名含 `date` → `XDateTimePicker`
 2. 列名含 `Attachment` → `XAttachments`
 3. 其余 → `XTextBox`
 
+**如果用户已指定控件类型，严格按用户配置生成，不应用自动映射规则。**
+
 ### 列默认属性
+
+**仅当用户配置中未指定以下属性时**应用默认值：
 
 - `ReadOnly` 默认 `true`：`Creater`、`CreationAccount`、`CreationDept`、`CreationDeptCode`、`SN`、`CreationDate`
 - `Hidden` 默认 `true`：列名含 `ID`、含 `Code`、含 `Account`，或等于 `SN`
 - `Generate` 默认 `false`（不生成到表单）：`ID`、`TaskID`、`TID`、`MID`
+
+**如果用户已明确指定属性值，严格按用户配置生成，不应用默认值。**
 
 ### 控件属性格式（必须严格遵循 C# 格式）
 
