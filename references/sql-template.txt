@@ -1,0 +1,30 @@
+-- =============================================
+-- 表名：{TableName}
+-- 说明：{TableComment}
+-- =============================================
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = '{TableName}')
+BEGIN
+    CREATE TABLE {TableName}
+    (
+        ID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+        TaskID INT,
+        {Columns}
+        Creater NVARCHAR(50),
+        CreationAccount NVARCHAR(50),
+        CreationDept NVARCHAR(50),
+        CreationDeptCode NVARCHAR(50),
+        CreationDate DATETIME,
+        SN INT
+    );
+
+    EXEC sp_addextendedproperty 'MS_Description', '{TableComment}', 'SCHEMA', 'dbo', 'TABLE', '{TableName}';
+    EXEC sp_addextendedproperty 'MS_Description', '主键ID', 'SCHEMA', 'dbo', 'TABLE', '{TableName}', 'COLUMN', 'ID';
+    EXEC sp_addextendedproperty 'MS_Description', '流程实例ID', 'SCHEMA', 'dbo', 'TABLE', '{TableName}', 'COLUMN', 'TaskID';
+    {ColumnComments}
+    EXEC sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', 'dbo', 'TABLE', '{TableName}', 'COLUMN', 'Creater';
+    EXEC sp_addextendedproperty 'MS_Description', '创建人账号', 'SCHEMA', 'dbo', 'TABLE', '{TableName}', 'COLUMN', 'CreationAccount';
+    EXEC sp_addextendedproperty 'MS_Description', '创建人部门', 'SCHEMA', 'dbo', 'TABLE', '{TableName}', 'COLUMN', 'CreationDept';
+    EXEC sp_addextendedproperty 'MS_Description', '创建人部门编码', 'SCHEMA', 'dbo', 'TABLE', '{TableName}', 'COLUMN', 'CreationDeptCode';
+    EXEC sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', 'dbo', 'TABLE', '{TableName}', 'COLUMN', 'CreationDate';
+    EXEC sp_addextendedproperty 'MS_Description', '单号', 'SCHEMA', 'dbo', 'TABLE', '{TableName}', 'COLUMN', 'SN';
+END

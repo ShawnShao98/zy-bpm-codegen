@@ -1,0 +1,18 @@
+{
+  "name": "zy-bpm-codegen",
+  "description": "BPM 代码生成器 — 通过自然语言生成 SQL 建表脚本、ExtJS 表单页面、列表页（JS + Handler）等",
+  "version": "1.0.0",
+  "author": {
+    "name": "godshao2212"
+  },
+  "homepage": "https://github.com/godshao2212/zy-bpm-codegen",
+  "repository": "https://github.com/godshao2212/zy-bpm-codegen",
+  "license": "MIT",
+  "keywords": [
+    "bpm",
+    "code-generator",
+    "extjs",
+    "flowportal",
+    "sql-server"
+  ]
+}
