@@ -1,4 +1,9 @@
-# init-project — 项目初始化 + 配置管理
+---
+name: bpm-init-project
+description: BPM 项目初始化 — 引导配置 .bpm-codegen-config.json（模块前缀、输出路径、表单模板等）
+---
+
+# bpm-init-project — 项目初始化 + 配置管理
 
 ## 功能
 

@@ -1,4 +1,9 @@
-# create-table — 建表 SQL 生成
+---
+name: bpm-create-table
+description: BPM 建表 SQL 生成 — 根据自然语言描述生成 SQL Server 建表脚本（含审计字段 + 注释）
+---
+
+# bpm-create-table — 建表 SQL 生成
 
 ## 输入
 

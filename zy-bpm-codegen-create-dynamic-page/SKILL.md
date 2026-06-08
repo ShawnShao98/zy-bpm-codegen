@@ -1,8 +1,13 @@
-# create-dynamic-page — 动态页面生成 (v47/v67/QMW)
+---
+name: bpm-create-dynamic-page
+description: BPM 动态页面生成 — 支持 v47/v67/QMW 三版本，生成 ExtJS 前端 + C# Handler
+---
+
+# bpm-create-dynamic-page — 动态页面生成 (v47/v67/QMW)
 
 ## 说明
 
-生成规则与 `create-page` 完全相同，区别在于代码生成版本。
+生成规则与 `bpm-create-page` 完全相同，区别在于代码生成版本。
 
 ## 版本选择
 
@@ -37,7 +42,7 @@
 ## 交互流程
 
 1. 确认版本（默认 v67）
-2. 其余同 `create-page` 的交互流程
+2. 其余同 `bpm-create-page` 的交互流程
 3. 生成 JS + Handler
 
 ## 输出

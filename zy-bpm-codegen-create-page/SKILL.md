@@ -1,4 +1,9 @@
-# create-page — 列表页 (ExtJS + Handler) 生成
+---
+name: bpm-create-page
+description: BPM 列表页生成 — 生成 ExtJS 前端页面 (.js) + C# 后端 Handler (.ashx)，含按钮/搜索/列配置/操作列
+---
+
+# bpm-create-page — 列表页 (ExtJS + Handler) 生成
 
 ## 输入
 

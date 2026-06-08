@@ -1,4 +1,9 @@
-# create-form — 表单 .aspx 生成
+---
+name: bpm-create-form
+description: BPM 表单生成 — 根据表结构生成 ASP.NET WebForm (.aspx) 表单页面，支持 10 种控件自动映射
+---
+
+# bpm-create-form — 表单 .aspx 生成
 
 ## 输入
 
