@@ -5,6 +5,12 @@ description: BPM 动态页面生成 — 支持 v47/v67/QMW 三版本，生成 Ex
 
 # bpm-create-dynamic-page — 动态页面生成 (v47/v67/QMW)
 
+## 前置检查
+
+**⚠️ 配置必须先初始化**：执行生成前，检查项目根目录是否存在 `.bpm-codegen-config.json`：
+- 不存在 → **必须**先引导用户执行 `/bpm-init-project` 完成初始化，**不能跳过**
+- 存在 → 读取配置并应用于生成，**必须使用配置中的值**，不能使用硬编码默认值
+
 ## 说明
 
 生成规则与 `bpm-create-page` 完全相同，区别在于代码生成版本。

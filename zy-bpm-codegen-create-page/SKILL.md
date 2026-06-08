@@ -11,7 +11,18 @@ description: BPM 列表页生成 — 生成 ExtJS 前端页面 (.js) + C# 后端
 
 ## 前置检查
 
-- 确认 `.bpm-codegen-config.json` 存在（含 `modulesPrefix`、`i18n` 等）
+**⚠️ 配置必须先初始化**：执行生成前，检查项目根目录是否存在 `.bpm-codegen-config.json`：
+- 不存在 → **必须**先引导用户执行 `/bpm-init-project` 完成初始化，**不能跳过**
+- 存在 → 读取配置并应用于生成，**必须使用配置中的值**，不能使用硬编码默认值
+
+**必须读取的配置项**（全部来自 `.bpm-codegen-config.json`）：
+- `modulesPrefix` — 模块前缀（用于 JS 模块路径）
+- `i18n` — 是否使用国际化（默认 true）
+- `defaultDSName` — 默认数据源名称
+- `jsOutputPath` — JS 输出路径模板
+- `handlerOutputPath` — Handler 输出路径模板
+- `createDirectories` — 需要自动创建的目录列表
+
 - 确认用户提供了 `PageClassName` 和页面名称
 
 ## 页面数据结构

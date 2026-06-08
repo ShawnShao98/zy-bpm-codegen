@@ -11,7 +11,22 @@ description: BPM 表单生成 — 根据表结构生成 ASP.NET WebForm (.aspx) 
 
 ## 前置检查
 
-执行前确认 `.bpm-codegen-config.json` 存在。
+**⚠️ 配置必须先初始化**：执行生成前，检查项目根目录是否存在 `.bpm-codegen-config.json`：
+- 不存在 → **必须**先引导用户执行 `/bpm-init-project` 完成初始化，**不能跳过**
+- 存在 → 读取配置中的 `form.*` 配置项，**必须使用配置中的值**，不能使用硬编码默认值
+
+**必须读取的配置项**（全部来自 `.bpm-codegen-config.json`）：
+- `form.tplFilePath` — 表单模板文件路径
+- `form.tplInsertSign` — 模板替换标识
+- `form.tplClassNames.title` — 标题栏 CSS 类名（默认 `xttl`）
+- `form.tplClassNames.primaryTableLabel` — 主表 Label CSS 类名（默认 `xfld`）
+- `form.tplClassNames.repeatTableLabel` — 明细表 Label CSS 类名（默认 `xtbd`）
+- `form.formWidth` — 表单宽度（默认 800）
+- `form.tableCols` — 主表列数（默认 6）
+- `form.formSavePath` — 表单输出路径
+- `form.showSignTrace` — 是否启用签核跟踪（默认 false）
+- `form.primaryTableLabelWidth` — 主表 Label 宽度（默认 150）
+- `defaultDSName` — 默认数据源名称
 
 ## 生成规则
 
