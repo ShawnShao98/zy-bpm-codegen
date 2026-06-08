@@ -21,9 +21,11 @@ BPM 系统代码生成器。根据用户描述的业务需求，生成与原有 
 
 ## 前置检查
 
-**⚠️ 配置必须先初始化**：执行任何生成操作（create-form、create-page、create-dynamic-page）前，项目根目录**必须存在** `.bpm-codegen-config.json` 配置文件：
-- 不存在 → **必须**先引导用户执行 `/bpm-init-project` 完成初始化，**不能跳过**
+**⚠️ 配置必须先初始化**：执行任何生成操作（create-form、create-page、create-dynamic-page）前，**当前项目目录**（用户执行命令的工作目录）下**必须存在** `.bpm-codegen-config.json` 配置文件：
+- 不存在 → **必须**先引导用户执行 `/bpm-init-project` 完成初始化，配置文件保存在当前项目目录下，**不能跳过**
 - 存在 → 读取配置并应用于生成，**必须使用配置中的值**，不能假设或使用硬编码默认值
+
+**配置文件作用域**：`.bpm-codegen-config.json` 保存在**项目根目录**，随项目一起移动。不同项目可以有各自的配置文件。
 
 ## 通用约定
 

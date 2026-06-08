@@ -7,7 +7,14 @@ description: BPM 项目初始化 — 引导配置 .bpm-codegen-config.json（模
 
 ## 功能
 
-引导用户配置项目参数，保存到 `.bpm-codegen-config.json`。
+引导用户配置项目参数，保存配置文件到**当前项目目录下**（即用户执行命令的工作目录）。
+
+**配置文件路径**：`{当前工作目录}/.bpm-codegen-config.json`
+
+**⚠️ 文件必须留在项目作用域中**：
+- 配置文件保存在**当前工作目录**，不是全局 `.claude` 目录或其他位置
+- 其他生成命令（create-form、create-page、create-dynamic-page）会从**同一目录**读取此配置文件
+- 用户切换项目目录时，配置文件随项目一起移动
 
 ## 配置文件结构
 
@@ -81,4 +88,8 @@ description: BPM 项目初始化 — 引导配置 .bpm-codegen-config.json（模
 
 ## 输出
 
-生成 `.bpm-codegen-config.json` 到项目根目录。
+在当前项目目录下生成 `.bpm-codegen-config.json` 文件。
+
+文件路径：`{当前工作目录}/.bpm-codegen-config.json`
+
+**文件应保留在项目目录中**，与项目代码一起管理。
