@@ -1,5 +1,5 @@
 {
   "description": "BPM 代码生成器。为 Flowportal BPM + ExtJS 系统生成 SQL 建表脚本、ASP.NET 表单页面、ExtJS 列表页及 C# Handler 后端代码。",
-  "homepage": "https://github.com/godshao2212/zy-bpm-codegen",
-  "repository": "https://github.com/godshao2212/zy-bpm-codegen"
+  "homepage": "https://github.com/ShawnShao98/zy-bpm-codegen",
+  "repository": "https://github.com/ShawnShao98/zy-bpm-codegen"
 }

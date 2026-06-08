@@ -3,10 +3,10 @@
   "description": "BPM 代码生成器 — 通过自然语言生成 SQL 建表脚本、ExtJS 表单页面、列表页（JS + Handler）等",
   "version": "1.0.0",
   "author": {
-    "name": "godshao2212"
+    "name": "ShawnShao98"
   },
-  "homepage": "https://github.com/godshao2212/zy-bpm-codegen",
-  "repository": "https://github.com/godshao2212/zy-bpm-codegen",
+  "homepage": "https://github.com/ShawnShao98/zy-bpm-codegen",
+  "repository": "https://github.com/ShawnShao98/zy-bpm-codegen",
   "license": "MIT",
   "keywords": [
     "bpm",
