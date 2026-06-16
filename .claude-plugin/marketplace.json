@@ -1,6 +1,5 @@
 {
   "name": "zy-bpm-codegen",
-  "id": "zy-bpm-codegen",
   "owner": {
     "name": "ShawnShao98"
   },
@@ -26,8 +25,7 @@
         "skill",
         "aspx"
       ],
-      "category": "code-generation",
-      "strict": false
+      "category": "code-generation"
     }
   ]
 }

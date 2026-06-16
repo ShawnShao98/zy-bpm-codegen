@@ -8,13 +8,5 @@
   },
   "homepage": "https://github.com/ShawnShao98/zy-bpm-codegen",
   "repository": "https://github.com/ShawnShao98/zy-bpm-codegen",
-  "license": "MIT",
-  "skills": [
-    "skills/zy-bpm-codegen",
-    "skills/bpm-create-table",
-    "skills/bpm-create-form",
-    "skills/bpm-create-page",
-    "skills/bpm-create-dynamic-page",
-    "skills/bpm-init-project"
-  ]
+  "license": "MIT"
 }
