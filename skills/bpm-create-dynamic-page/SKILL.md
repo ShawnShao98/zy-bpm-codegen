@@ -11,6 +11,8 @@ description: BPM 动态页面生成 — 支持 v47/v67/QMW 三版本，生成 Ex
 - 不存在 → **必须**先引导用户执行 `/bpm-init-project` 完成初始化，**不能跳过**
 - 存在 → 读取配置并应用于生成，**必须使用配置中的值**，不能使用硬编码默认值
 
+**⚠️ 强制执行：所有配置项必须逐项向用户确认，未经用户明确确认的配置项一律不得使用，不得假设、不得跳过、不得使用所谓的"合理默认值"。**
+
 ## 说明
 
 生成规则与 `bpm-create-page` 完全相同，区别在于代码生成版本。
@@ -59,16 +61,15 @@ description: BPM 动态页面生成 — 支持 v47/v67/QMW 三版本，生成 Ex
 - `✅ 已确认页面配置`
 - `🔄 正在生成 ExtJS 页面 (.js)`
 - `🔄 正在生成 C# Handler (.ashx)`
-- `✅ 文件编码 BOM 已添加`
 - `📄 生成完毕`
 
 ## 输出
 
 - `.js` 文件 + `.ashx` Handler 文件
 - 编码：UTF-8 with BOM
-- **BOM 添加步骤**（Write 工具输出无 BOM，生成后必须执行）：
+- **直接写入**（不要用 Write 工具 + 后处理两步）：
 
   ```bash
   cd "{目标目录路径}"
-  powershell -ExecutionPolicy Bypass -Command "Get-ChildItem -Filter '{FileName}.*' | ForEach-Object { \$f=\$_.FullName; \$c=[System.IO.File]::ReadAllBytes(\$f); if(\$c[0]-ne 0xEF -or \$c[1]-ne 0xBB -or \$c[2]-ne 0xBF){\$b=[byte[]]@(0xEF,0xBB,0xBF)+\$c;[System.IO.File]::WriteAllBytes(\$f,\$b)}}"
+  powershell -Command "[System.IO.File]::WriteAllLines('{FileName}.js', $jsContent, [System.Text.UTF8Encoding]::new($true)); [System.IO.File]::WriteAllLines('{FileName}.ashx', $handlerContent, [System.Text.UTF8Encoding]::new($true))"
   ```

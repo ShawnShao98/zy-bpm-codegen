@@ -15,13 +15,16 @@ description: BPM 表单生成 — 根据表结构生成 ASP.NET WebForm (.aspx) 
 - 不存在 → **必须**先引导用户执行 `/bpm-init-project` 完成初始化，**不能跳过**
 - 存在 → 读取配置中的 `form.*` 配置项，**必须使用配置中的值**，不能使用硬编码默认值
 
+**⚠️ 强制执行：所有配置项必须逐项向用户确认，未经用户明确确认的配置项一律不得使用，不得假设、不得跳过、不得使用所谓的"合理默认值"。**
+
 **必须读取的配置项**（全部来自 `.bpm-codegen-config.json`）：
+
 - `form.tplFilePath` — 表单模板文件路径
-- `form.tplInsertSign` — 模板替换标识
+- `form.tplInsertSign` — 模板替换标识 （默认<!--form body-->）
 - `form.tplClassNames.title` — 标题栏 CSS 类名（默认 `xttl`）
 - `form.tplClassNames.primaryTableLabel` — 主表 Label CSS 类名（默认 `xfld`）
 - `form.tplClassNames.repeatTableLabel` — 明细表 Label CSS 类名（默认 `xtbd`）
-- `form.formWidth` — 表单宽度（默认 800）
+- `form.formWidth` — 表单宽度（默认 1000）
 - `form.tableCols` — 主表列数（默认 6）
 - `form.formSavePath` — 表单输出路径
 - `form.showSignTrace` — 是否启用签核跟踪（默认 false）
@@ -39,10 +42,9 @@ description: BPM 表单生成 — 根据表结构生成 ASP.NET WebForm (.aspx) 
 - **不自动补充**用户未提及的布局元素
 - 仅执行配置中明确指定的操作
 
-### 模板替换
+### 模板替换（必须从模板文件为基准开始做，严禁参考现有表单）
 
 1. 从配置读取 `form.tplFilePath` 和 `form.tplInsertSign`
-2. 替换 `<%@ Page language="C#"%%ClassName, ClassName="{0}"%% %>` 为 `<%@ Page Language="C#" %>`
 3. 将生成的表单内容替换到 `form.tplInsertSign` 位置
 
 ### 输出结构
@@ -63,8 +65,8 @@ description: BPM 表单生成 — 根据表结构生成 ASP.NET WebForm (.aspx) 
 ### 主表布局
 
 - 外层 `<table>` 属性：`align="center" cellspacing="0" cellpadding="0" width="{formWidth}" style="边框"`
-- 字段**倒序**排列（最后一个字段最先显示）
-- 按 `form.tableCols`（默认 6 列）布局
+- 字段**正序**排列（第一个字段最先显示）
+- 按 `form.tableCols`布局
 - 每行结构：`Label | Control | Label | Control | ...`（Label 和 Control 交替）
 - 支持 ColSpan 跨列（如 `colspan="5"` 用于宽字段）
 - 放不下则换行（不压缩列）
@@ -72,6 +74,7 @@ description: BPM 表单生成 — 根据表结构生成 ASP.NET WebForm (.aspx) 
 - Label 宽度使用 `form.primaryTableLabelWidth`（默认 150）
 
 **表头行**：
+
 ```xml
 <tr>
     <td class="xttl" Height="21px" style="边框" colspan="{tableCols}">
@@ -90,7 +93,7 @@ description: BPM 表单生成 — 根据表结构生成 ASP.NET WebForm (.aspx) 
 **必填 Label 单元格**：
 ```xml
 <td class="xfld" style="边框" align="center" width="150">
-    <span style="color:red; font-weight:bold">*</span>
+    <aspxform:XLabel id="XLabelXX(不能重复)" runat="server" Width="15px" ForeColor="Red" HiddenExpress='' Visibility="False" BackColor="Transparent" text="*"></aspxform:XLabel>
     <aspxform:XRequiredFieldValidator runat="server" ForeColor="Red" Display="None" ControlToValidate="{控件ID}" ErrorMessage="{错误消息}">R</aspxform:XRequiredFieldValidator>
     <span>{DisplayName}</span>
 </td>
@@ -121,6 +124,7 @@ description: BPM 表单生成 — 根据表结构生成 ASP.NET WebForm (.aspx) 
 **每个明细表都是独立的 table，嵌套关系由用户配置决定**
 
 - **兄弟明细表**：每个明细表包裹在 div 中：
+  
   ```xml
   <div style="margin: 0 auto; width: {formWidth}px; height: {height}px; overflow: auto">
       <table align="center" cellspacing="0" cellpadding="0" width="{formWidth}" dynamicarea="2,1">
@@ -129,13 +133,14 @@ description: BPM 表单生成 — 根据表结构生成 ASP.NET WebForm (.aspx) 
   </div>
   ```
   - height 为 "0" 或空时使用 `auto`
-
+  
 - **嵌套明细表**（用户配置了 ParentTable 时）：
+  
   - 子明细表直接生成在父明细表的对应 `<td>` 内
   - **不需要 div 包裹**，直接生成 `<table>`
   - 嵌套的 table 仍然需要 `dynamicarea` 属性
   - 嵌套 table 的宽度根据父 td 的宽度计算（通常 `width="100%"`）
-
+  
 - 表格属性：`align="center" cellspacing="0" cellpadding="0" width="{formWidth}" dynamicarea="2,1"`
 - 添加 `XAddBlockButton`（+ 按钮）
 - 添加 `XGridLineNo`（序号列）
@@ -156,7 +161,7 @@ description: BPM 表单生成 — 根据表结构生成 ASP.NET WebForm (.aspx) 
 <tr>
     <td class="xtbd" width="50" align="center" style="边框">#</td>
     <td class="xtbd" align="center" width="{百分比}%" style="边框" />
-    <span style="color:red; font-weight:bold">* </span>
+    <aspxform:XLabel id="XLabelXX(不能重复)" runat="server" Width="15px" ForeColor="Red" HiddenExpress='' Visibility="False" BackColor="Transparent" text="*"></aspxform:XLabel>
     <aspxform:XRequiredFieldValidator runat="server" ForeColor="Red" Display="None" ControlToValidate="{控件ID}" ErrorMessage="{错误消息}">R</aspxform:XRequiredFieldValidator>
     <span>{列名}</span>
     <!-- 更多列... -->
@@ -177,6 +182,7 @@ description: BPM 表单生成 — 根据表结构生成 ASP.NET WebForm (.aspx) 
 ```
 
 **明细表隐藏列**（隐藏字段 ≤ 4 个时）：
+
 - 放在序号列 `<td>` 内，直接在 XGridLineNo 后面
 
 **明细表隐藏字段独立表格**（隐藏字段 > 4 个时）：
@@ -197,7 +203,14 @@ description: BPM 表单生成 — 根据表结构生成 ASP.NET WebForm (.aspx) 
 
 ### 签收跟踪
 
-- 配置中 `form.showSignTrace=true` 时，在隐藏字段表格之前添加 `XSignTrace` 控件
+- 配置中 `form.showSignTrace=true` 时，在主表/明细表之后、隐藏字段表格之前添加 `XSignTrace` 控件
+- **必须居中显示**，使用 `<div align="center">` 包裹：
+```xml
+<br />
+<div align="center">
+    <aspxform:XSignTrace runat="server" BorderColor="#dcdcdc" BorderWidth="1" Width="{formWidth}" />
+</div>
+```
 - 属性：`runat="server"`, `BorderColor="#dcdcdc"`, `BorderWidth="1"`, `Width="{formWidth}"`
 
 ### 控件库（10 种）
@@ -214,23 +227,69 @@ description: BPM 表单生成 — 根据表结构生成 ASP.NET WebForm (.aspx) 
 | `XCheckBox` | 单个复选框 | 手动指定 |
 | `XImageAttachment` | 图片附件 | 手动指定 |
 | `XHistoryFormLink` | 历史表单链接 | 手动指定 |
+| `XSelectUserButton` | 选人控件（放在 Label 处） | 字段 Description 含"选择用户带出"或者意思为用户时自动放置 |
 
 ### 控件自动映射规则
 
 **仅当用户配置中未指定 `XFormControl` 时**应用以下规则：
+
 1. 数据类型含 `date` / `datetime`，或列名含 `date` → `XDateTimePicker`
 2. 列名含 `Attachment` → `XAttachments`
 3. 其余 → `XTextBox`
 
 **如果用户已指定控件类型，严格按用户配置生成，不应用自动映射规则。**
 
+### 选人控件（XSelectUserButton）
+
+当字段的 `Description` 包含"选择用户带出"时，在该字段的 **Label 单元格** 右侧添加选人按钮：
+
+```xml
+<td class="xfld" style="边框" align="center" width="150">
+    <span>{DisplayName}</span>
+    <aspxform:XSelectUserButton runat="server" Width="21px" DataMap="Account->{DSName}:{TableName}.{ColumnName}Account;DisplayName->{DSName}:{TableName}.{ColumnName};HRID->{DSName}:{TableName}.{ColumnName}HRID" HiddenExpress='Global.StepName!="开始"' />
+</td>
+```
+
+**注意**：
+
+- `DataMap` 中的字段映射需根据实际字段名调整（如 `Creater` 对应 `CreaterAccount`、`Creater`、`CreaterHRID`）
+- 如果字段本身就是选人结果字段（如 `ResponsiblePerson`），`DataMap` 映射为：`Account->{DSName}:{TableName}.ResponsiblePersonAccount;DisplayName->{DSName}:{TableName}.ResponsiblePerson;HRID->{DSName}:{TableName}.ResponsiblePersonHRID`
+- `HiddenExpress` 默认 `'Global.StepName!="开始"'`，可根据用户配置调整
+
+### 单选按钮列表（XRadioButtonList / XRadioButton / XDropDownList / XCheckBoxList / XCheckBox）
+
+当指定控件为 `XRadioButtonList` 或 `XRadioButton` 、XDropDownList / XCheckBoxList / XCheckBox时，使用 `<asp:ListItem>` 生成选项：
+
+```xml
+<aspxform:XRadioButtonList runat="server" id="{控件ID}" XDataBind="{数据绑定}" Width="100%" FieldName="{DisplayName}" RepeatDirection="Horizontal">
+    <asp:ListItem>选项1</asp:ListItem>
+    <asp:ListItem>选项2</asp:ListItem>
+    <asp:ListItem>选项3</asp:ListItem>
+</aspxform:XRadioButtonList>
+```
+
+**注意**：
+
+- 选项列表来自字段的 `ListItemOptions` 属性（逗号斜杠分隔或 JSON 数组）
+- **必须使用 `<asp:ListItem>文本</asp:ListItem>` 格式**，不能使用 `<aspxform:ListItem Text="..." Value="..." />`
+- 如果指定了 Value，使用 `<asp:ListItem Value="值">文本</asp:ListItem>`
+- `RepeatDirection` 默认 `Horizontal`（横向排列），用户可指定 `Vertical`
+
 ### 列默认属性
 
 **仅当用户配置中未指定以下属性时**应用默认值：
 
 - `ReadOnly` 默认 `true`：`Creater`、`CreationAccount`、`CreationDept`、`CreationDeptCode`、`SN`、`CreationDate`
-- `Hidden` 默认 `true`：列名含 `ID`、含 `Code`、含 `Account`，或等于 `SN`
+- `Hidden` 默认 `true`：列名含 `ID`（但 `Creater`/`CreationAccount`/`CreationDept` 等创建人相关字段除外）、含 `Code`、含 `Account`（但 `CreationAccount` 除外），或等于 `SN`
 - `Generate` 默认 `false`（不生成到表单）：`ID`、`TaskID`、`TID`、`MID`
+
+**⚠️ 创建人相关字段（Creater、CreationAccount、CreationDept、CreationDate）不应全部隐藏**：
+
+- `Creater`（创建人姓名）→ 可见，ReadOnly=true，放在主表展示
+- `CreationDate`（创建日期）→ 可见，ReadOnly=true/DisplayOnly=true，放在主表展示
+- `CreationAccount`（创建人账号）→ Hidden=true（隐藏字段）
+- `CreationDept`（创建人部门）→ 可见，ReadOnly=true，放在主表展示
+- `CreationDeptCode`（部门编码）→ Hidden=true（隐藏字段）
 
 **如果用户已明确指定属性值，严格按用户配置生成，不应用默认值。**
 
@@ -331,20 +390,14 @@ description: BPM 表单生成 — 根据表结构生成 ASP.NET WebForm (.aspx) 
 
 ### 编码
 
-- **UTF-8 with BOM**
+- **UTF-8 with BOM**（ASP.NET 需要 BOM 才能正确解析中文）
 - 文件后缀 `.aspx`
-- **BOM 添加步骤**（Write 工具输出无 BOM，必须手动添加）：
+- **BOM 添加是自动步骤，不需要用户确认**：Write 写入后立刻执行以下命令（先 cd 到目标目录避免中文路径问题）：
 
-```bash
-# 先 cd 到目标目录，避免中文路径编码问题
-cd "{目标目录路径}"
-powershell -ExecutionPolicy Bypass -Command "Get-ChildItem -Filter '{FileName}.aspx' | ForEach-Object { \$f=\$_.FullName; \$c=[System.IO.File]::ReadAllBytes(\$f); if(\$c[0]-eq 0xEF -and \$c[1]-eq 0xBB -and \$c[2]-eq 0xBF){Write-Host 'Has BOM'}else{\$b=[byte[]]@(0xEF,0xBB,0xBF)+\$c;[System.IO.File]::WriteAllBytes(\$f,\$b);Write-Host 'BOM added'}}"
-```
-
-### 双语表单
-
-- 用户要求双语时，生成逻辑相同，仅模板来源不同
-- 对应 C# 端的 `QMWFormGeneratorService`
+  ```bash
+  cd "{目标目录路径}"
+  powershell -Command "Get-ChildItem -Filter '{FileName}.aspx' | ForEach-Object { \$f=\$_.FullName; \$c=[System.IO.File]::ReadAllBytes(\$f); \$b=[byte[]]@(0xEF,0xBB,0xBF)+\$c; [System.IO.File]::WriteAllBytes(\$f,\$b) }"
+  ```
 
 ## 输出路径
 
@@ -362,7 +415,7 @@ powershell -ExecutionPolicy Bypass -Command "Get-ChildItem -Filter '{FileName}.a
 2. 确认表结构和字段
 3. 确认表单配置（宽度、列数、CSS 类名等）
 4. 确认明细表关系（是否有嵌套明细表，父表/子表对应关系）
-5. 生成 .aspx 文件并添加 BOM
+5. 生成 .aspx 文件（Write 后立即加 BOM，自动执行不需确认）
 6. 供用户确认后输出
 
 ### 进度汇报（生成期间）
@@ -375,5 +428,4 @@ powershell -ExecutionPolicy Bypass -Command "Get-ChildItem -Filter '{FileName}.a
 - `✅ 明细表布局完成（Z 个控件，{兄弟/嵌套}）`
 - `✅ 隐藏字段整理完成`
 - `✅ 签收跟踪控件已添加`
-- `✅ 文件编码 BOM 已添加`
 - `📄 生成完毕，待确认`

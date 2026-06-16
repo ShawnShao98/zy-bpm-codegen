@@ -25,6 +25,8 @@ BPM 系统代码生成器。根据用户描述的业务需求，生成与原有 
 - 不存在 → **必须**先引导用户执行 `/bpm-init-project` 完成初始化，配置文件保存在当前项目目录下，**不能跳过**
 - 存在 → 读取配置并应用于生成，**必须使用配置中的值**，不能假设或使用硬编码默认值
 
+**⚠️ 强制执行：任何配置项未经用户明确确认，一律不得使用。不得假设、不得跳过确认、不得使用"合理默认值"。**
+
 **配置文件作用域**：`.bpm-codegen-config.json` 保存在**项目根目录**，随项目一起移动。不同项目可以有各自的配置文件。
 
 ## 通用约定
@@ -37,11 +39,12 @@ BPM 系统代码生成器。根据用户描述的业务需求，生成与原有 
 - 数据源命名：`DSName.TableName`（如 `BPMDB.Employee_T`）
 
 ### 编码规范
-- .aspx 文件：UTF-8 with BOM
-- .js / .ashx 文件：UTF-8 with BOM（QMW 版本同为 UTF-8 with BOM）
-- **BOM 添加**（Write 工具默认无 BOM，生成文件后必须执行）：
+- .aspx 文件：UTF-8 with BOM（Write 后紧跟 PowerShell 加 BOM，一步到位不确认）
+- .js / .ashx 文件：UTF-8 with BOM（Write 后紧跟 PowerShell 加 BOM，一步到位不确认）
+- **BOM 添加**（Write 工具无 BOM，生成后立刻用 PowerShell 补 BOM，不需要用户确认）：
   ```bash
-  powershell -Command "$f='<文件路径>'; $c=[System.IO.File]::ReadAllBytes($f); $b=[byte[]]@(0xEF,0xBB,0xBF)+$c; [System.IO.File]::WriteAllBytes($f,$b)"
+  cd "{目标目录}"
+  powershell -Command "Get-ChildItem -Filter '{FileName}.*' | ForEach-Object { \$f=\$_.FullName; \$c=[System.IO.File]::ReadAllBytes(\$f); if(\$c[0]-ne 0xEF -or \$c[1]-ne 0xBB -or \$c[2]-ne 0xBF){\$b=[byte[]]@(0xEF,0xBB,0xBF)+$c;[System.IO.File]::WriteAllBytes(\$f,\$b)}}"
   ```
 - C# 代码使用 XML 中文注释
 - SQL 参数化查询

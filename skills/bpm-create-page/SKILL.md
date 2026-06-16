@@ -15,6 +15,8 @@ description: BPM 列表页生成 — 生成 ExtJS 前端页面 (.js) + C# 后端
 - 不存在 → **必须**先引导用户执行 `/bpm-init-project` 完成初始化，**不能跳过**
 - 存在 → 读取配置并应用于生成，**必须使用配置中的值**，不能使用硬编码默认值
 
+**⚠️ 强制执行：所有配置项必须逐项向用户确认，未经用户明确确认的配置项一律不得使用，不得假设、不得跳过、不得使用所谓的"合理默认值"。**
+
 **必须读取的配置项**（全部来自 `.bpm-codegen-config.json`）：
 - `modulesPrefix` — 模块前缀（用于 JS 模块路径）
 - `i18n` — 是否使用国际化（默认 true）
@@ -225,9 +227,9 @@ yz-glyph yz-glyph-eb16 (退出)
 - ExtJS `.js` 文件（路径：配置的 `jsOutputPath` 模板解析）
 - C# `.ashx` Handler 文件（路径：配置的 `handlerOutputPath` 模板解析）
 - 编码：UTF-8 with BOM
-- **BOM 添加步骤**：
+- **直接写入**（不要用 Write 工具 + 后处理两步）：
 
   ```bash
   cd "{目标目录路径}"
-  powershell -ExecutionPolicy Bypass -Command "Get-ChildItem -Filter '{FileName}.*' | ForEach-Object { \$f=\$_.FullName; \$c=[System.IO.File]::ReadAllBytes(\$f); if(\$c[0]-ne 0xEF -or \$c[1]-ne 0xBB -or \$c[2]-ne 0xBF){\$b=[byte[]]@(0xEF,0xBB,0xBF)+\$c;[System.IO.File]::WriteAllBytes(\$f,\$b)}}"
+  powershell -Command "[System.IO.File]::WriteAllLines('{FileName}.js', $jsContent, [System.Text.UTF8Encoding]::new($true)); [System.IO.File]::WriteAllLines('{FileName}.ashx', $handlerContent, [System.Text.UTF8Encoding]::new($true))"
   ```

@@ -14,11 +14,13 @@ description: BPM 建表 SQL 生成 — 根据自然语言描述生成 SQL Server
 ### 表结构规则
 
 1. **自动添加字段**：
+   
    - 所有表：`ID INT IDENTITY(1,1) PRIMARY KEY NOT NULL` + `TaskID INT`
    - 非 `_T` 表（主表）额外添加审计字段：`Creater`、`CreationAccount`、`CreationDept`、`CreationDeptCode`、`CreationDate`、`SN`
    - `_T` 表（明细表）不添加审计字段
-
+   
 2. **数据类型映射**：
+   
    | 用户描述 | SQL 类型 |
    |---------|----------|
    | 文本、字符串、名称、账号、部门等 | `NVARCHAR(50)` |
@@ -27,7 +29,7 @@ description: BPM 建表 SQL 生成 — 根据自然语言描述生成 SQL Server
    | 长文本、备注、说明、内容 | `NVARCHAR(500)` |
    | 小数、金额、价格 | `DECIMAL(18,2)` |
    | 布尔、是否、状态 | `BIT` |
-
+   
 3. **字段注释**：
    - 使用 `sp_addextendedproperty` 添加 MS_Description
    - 用户指定注释 100% 按用户要求匹配
@@ -44,8 +46,8 @@ BEGIN
     (
         ID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
         TaskID INT,
-        {用户字段},
-        {审计字段（仅非_T表）}
+        {审计字段（仅非_T表）},
+        {用户字段}
     );
 
     -- 表注释

@@ -69,7 +69,7 @@ description: BPM 项目初始化 — 引导配置 .bpm-codegen-config.json（模
 
 ## 交互流程
 
-1. **首次初始化**：逐项引导用户填写（`modulesPrefix` 必填）
+1. **首次初始化**：逐项引导用户填写（`modulesPrefix` 必填，**每项必须向用户确认，不得使用默认值**）
 2. **查看配置**：显示当前 `.bpm-codegen-config.json` 内容
 3. **更新配置**：用户指定要修改的配置项和值
 4. **重置配置**：删除配置文件，提示重新初始化
