@@ -1,0 +1,33 @@
+{
+  "name": "zy-bpm-codegen",
+  "id": "zy-bpm-codegen",
+  "owner": {
+    "name": "ShawnShao98"
+  },
+  "metadata": {
+    "description": "BPM 代码生成器 — 通过自然语言生成 SQL 建表脚本、ExtJS 表单页面、列表页（JS + Handler）等",
+    "version": "1.1.0"
+  },
+  "plugins": [
+    {
+      "name": "zy-bpm-codegen",
+      "source": "./",
+      "description": "BPM 代码生成器。为 Flowportal BPM + ExtJS 系统生成 SQL 建表脚本、ASP.NET 表单页面、ExtJS 列表页及 C# Handler 后端代码。包含 5 个子命令：init-project、create-table、create-form、create-page、create-dynamic-page。",
+      "version": "1.1.0",
+      "author": {
+        "name": "ShawnShao98"
+      },
+      "keywords": [
+        "bpm",
+        "code-generator",
+        "extjs",
+        "flowportal",
+        "sql-server",
+        "skill",
+        "aspx"
+      ],
+      "category": "code-generation",
+      "strict": false
+    }
+  ]
+}
