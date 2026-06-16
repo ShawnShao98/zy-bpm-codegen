@@ -25,8 +25,7 @@
         "skill",
         "aspx"
       ],
-      "category": "code-generation",
-      "skills": "./skills/"
+      "category": "code-generation"
     }
   ]
 }
