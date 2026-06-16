@@ -18,11 +18,11 @@
     "skill"
   ],
   "skills": [
-    "skills/zy-bpm-codegen",
-    "skills/bpm-init-project",
-    "skills/bpm-create-table",
-    "skills/bpm-create-form",
-    "skills/bpm-create-page",
-    "skills/bpm-create-dynamic-page"
+    "./.claude/skills/zy-bpm-codegen",
+    "./.claude/skills/bpm-init-project",
+    "./.claude/skills/bpm-create-table",
+    "./.claude/skills/bpm-create-form",
+    "./.claude/skills/bpm-create-page",
+    "./.claude/skills/bpm-create-dynamic-page"
   ]
 }
