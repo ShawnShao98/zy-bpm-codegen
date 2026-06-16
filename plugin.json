@@ -16,13 +16,5 @@
     "flowportal",
     "sql-server",
     "skill"
-  ],
-  "skills": [
-    "./.claude/skills/zy-bpm-codegen",
-    "./.claude/skills/bpm-init-project",
-    "./.claude/skills/bpm-create-table",
-    "./.claude/skills/bpm-create-form",
-    "./.claude/skills/bpm-create-page",
-    "./.claude/skills/bpm-create-dynamic-page"
   ]
 }
